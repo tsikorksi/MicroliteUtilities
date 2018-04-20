@@ -1,5 +1,5 @@
 # Microlite D20 monster generator
-# Please note that I did not write the original version of this, and that I am only converting some JS that I found on 1d4chan.org
+# Please note that I did not write the original version, and that I am only converting JS that I found on 1d4chan.org
 # I barely understand the retarded JS code, so I decided to convert it into something usable and readable that works
 
 import random
@@ -25,18 +25,20 @@ np = {
      'X': 'e i o aw ow oy'
  }
 # Feel free to expand the list of attack types
-atktypes = 'Bite Claw Slam Gore Sting Tentacle Shock'
-atktypes = atktypes + ' Broadsword Battleaxe Club Glaive Spear Falchion Dagger'
+atktypes = 'Bite Claw Slam Gore Sting Tentacle Shock Broadsword Battleaxe Club Glaive Spear Falchion Dagger'
+
 
 def randint(n):
-    # Wierd way of doing random numbers, someone should probably rewrite this whole script to use the actual python random stuff
+    # Weird way of doing random, someone should probably rewrite this whole script to use the actual python random stuff
     return math.floor(random.randint(0, 1) * n)
 
-def randItem(m):
-    # grabs a random choice from the charectar dictionary np above
+
+def rand_item(m):
+    # grabs a random choice from the character dictionary np above
     return random.choice(np[m].split(' '))
 
-def newword():
+
+def new_word():
     # Generates a random name with some clever regex golf
     word = 'W'
     p = re.compile('[A-Z]')
@@ -46,17 +48,20 @@ def newword():
             matched = match.group(0)
         else:
             return word.capitalize()
-        word = word.replace(matched, randItem(matched))
+        word = word.replace(matched, rand_item(matched))
     return word.capitalize()
 
-def microMonster():
+
+def micro_monster(hd):
     # Generates stats and formats output
-    hd = int(input("Enter number of hit dice(whole number): "))
-    hd = hd * 1
-    construct = "Name:" + newword() + "\n" + "HD: " + str(hd) + " (" + str(math.floor(hd * 4.5) + randint(hd * 4)) + "hp) "
-    construct += ", AC: " + str((randint(5) + hd + 10)) + ", Attack: " + random.choice(atktypes.split(' ')) + " + " + str((hd + randint(4)))
-    construct += " (" + str((randint(2) + 1)) + "d" + str((2 * ((randint(6) + 1)))) + ")\n"
+    construct = "Name: {}\n".format(new_word())
+    construct += "HD: {} ({}hp), ".format(hd, int(math.floor(hd * 4.5)) + randint(hd * 4))
+    construct += "AC: {}, ".format(randint(5) + hd + 10)
+    construct += "Attack: {} + {} ".format(random.choice(atktypes.split(' ')), hd + randint(4))
+    construct += "({}d{})\n".format(randint(2) + 1, 2 * (randint(6) + 1))
     print(construct)
     return construct
 
-microMonster()
+
+hd = int(input("Enter number of hit dice(whole number): "))
+micro_monster(hd)
