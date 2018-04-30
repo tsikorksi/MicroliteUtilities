@@ -36,7 +36,8 @@ class Character:
                   "may not wear armor, +3 bonus to Knowledge, may cast Magi spells "
                   "\n \u2022"
                   " Clerics, "
-                  "may use light or medium armor, +3 bonus to Communication, can turn undead with Magic Attacks")
+                  "may use light or medium armor, +3 bonus to Communication,"
+                  " can turn undead with Magic Attacks and cast Divine spells")
             class_response = str(input("Are they a Fighter[A], Rogue[B], Magi[C] or Cleric[D]?"))
             response = False
             if class_response == "A" or class_response == 'a':
