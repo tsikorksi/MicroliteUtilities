@@ -23,6 +23,10 @@ class Character:
         self.damage_bonus = int
 
     def char_gen(self):
+        """
+        Function to generate a new character, as stated in the Microlite d20 Revised rules
+        :return: nothing
+        """
         print("Generating character based on Microlite20 Revised Rules.")
         self.name = str(input("What is your characters name?"))
         response = True
@@ -120,6 +124,11 @@ class Character:
         self.magic += self.MIND
 
     def level_up(self):
+        """
+        Levels character up, including recalculating stats dependant on the core stats
+        Accounts for both 3rd level extra attribute point, and fighter 5th level bonus
+        :return:
+        """
         print("Congratulations! You have leveled up! Your skills and attack rolls have been increased by 1.")
         self.level += 1
         self.melee += 1
@@ -158,6 +167,10 @@ class Character:
             self.damage_bonus += 1
 
     def json_output(self):
+        """
+        Outputs the class dict as a json
+        :return: the json tree
+        """
         output = json.dumps(self.__dict__)
         print(output)
         return output
@@ -172,4 +185,3 @@ if __name__ == "__main__":
     Character.level_up(zed)
     Character.level_up(zed)
     Character.json_output(zed)
-
