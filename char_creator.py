@@ -1,5 +1,6 @@
 import json
 import random
+# import Dice from dice_roller
 
 
 class Character:
@@ -25,26 +26,9 @@ class Character:
     def char_gen(self):
         """
         Function to generate a new character, as stated in the Microlite d20 Revised rules
+        Races: 0 =
         :return: nothing
         """
-        print("Generating character based on Microlite20 Revised Rules.")
-        self.name = str(input("What is your characters name?"))
-        response = True
-
-        print("Attributes  represent  the  overall  physical  and  mental  qualities  of  an  individual."
-              " They  define  the  raw  potential  an  individual  has  regardless  of  actual  skill.")
-        print("To define these Attributes, the computer will roll 4D6, dropping the lowest roll, and you"
-              " will choose which score to assign to 3 Attributes:\n \u2022 Strength(STR)"
-              "\n \u2022 Dexterity(DEX)\n \u2022 Mind(MIND)")
-        rolls = [0, 0, 0, 0]
-        outs = [random.randint(1, 6) for _ in rolls]
-        outs.remove(min(outs))
-        print("Your rolls are {}.".format(outs))
-        self.STR = int(input("Assign STR {}, {} or {}".format(outs[0], outs[1], outs[2])))
-        outs.remove(self.STR)
-        self.DEX = int(input("Assign DEX {} or {}".format(outs[0], outs[1])))
-        outs.remove(self.DEX)
-        self.MIND = outs[0]
 
         self.HP = 6
         self.AC = 10
@@ -57,7 +41,38 @@ class Character:
         self.subterfuge = 1
         self.knowledge = 1
         self.communication = 1
+        self.DEX = 0
+        self.MIND = 0
+        self.STR = 0
 
+        print("Generating character based on Microlite20 Revised Rules.")
+        self.name = str(input("What is your characters name?"))
+        response = True
+
+        while response:
+            print("Races: \n \u2022 Humans, +1  to  all  skill  rolls\n \u2022 Elves, +2 MIND"
+                  "\n \u2022 Dwarves, +2 STR \n \u2022 Halflings, +2 DEX")
+            race_response = str(input("Are they a Human[A], Elf[B], Dwarf[C] or Halfling[D]?"))
+            response = False
+            if race_response == "A" or race_response == 'a':
+                self.race = 0
+                self.physical += 1
+                self.subterfuge += 1
+                self.knowledge += 1
+                self.communication += 1
+            elif race_response == "B" or race_response == "b":
+                self.MIND += 2
+                self.race = 1
+            elif race_response == "C" or race_response == "c":
+                self.STR += 2
+                self.race = 2
+            elif race_response == "D" or race_response == "d":
+                self.DEX += 2
+                self.race = 3
+            else:
+                response = True
+
+        response = True
         while response:
             print("Classes: \n \u2022"
                   " Fighters, "
@@ -93,29 +108,21 @@ class Character:
             else:
                 response = True
 
-        response = True
-        while response:
-            print("Races: \n \u2022 Humans, +1  to  all  skill  rolls\n \u2022 Elves, +2 MIND"
-                  "\n \u2022 Dwarves, +2 STR \n \u2022 Halflings, +2 DEX")
-            race_response = str(input("Are they a Human[A], Elf[B], Dwarf[C] or Halfling[D]?"))
-            response = False
-            if race_response == "A" or race_response == 'a':
-                self.race = 0
-                self.physical += 1
-                self.subterfuge += 1
-                self.knowledge += 1
-                self.communication += 1
-            elif race_response == "B" or race_response == "b":
-                self.MIND += 2
-                self.race = 1
-            elif race_response == "C" or race_response == "c":
-                self.STR += 2
-                self.race = 2
-            elif race_response == "D" or race_response == "d":
-                self.DEX += 2
-                self.race = 3
-            else:
-                response = True
+        print("Attributes  represent  the  overall  physical  and  mental  qualities  of  an  individual."
+              " They  define  the  raw  potential  an  individual  has  regardless  of  actual  skill.")
+        print("To define these Attributes, the computer will roll 4D6, dropping the lowest roll, and you"
+              " will choose which score to assign to 3 Attributes:\n \u2022 Strength(STR)"
+              "\n \u2022 Dexterity(DEX)\n \u2022 Mind(MIND)")
+        rolls = [0, 0, 0, 0]
+        outs = [random.randint(1, 6) for _ in rolls]
+        outs.remove(min(outs))
+        print("Your rolls are {}.".format(outs))
+        self.STR = int(input("Assign STR {}, {} or {}".format(outs[0], outs[1], outs[2])))
+        outs.remove(self.STR)
+        self.DEX = int(input("Assign DEX {} or {}".format(outs[0], outs[1])))
+        outs.remove(self.DEX)
+        print("Assigning {} to MIND".format(outs[0]))
+        self.MIND = outs[0]
 
         self.HP += self.STR
         self.AC += self.DEX
