@@ -1,6 +1,6 @@
 import json
 import random
-# import Dice from dice_roller
+from dice_roller import Dice as dice
 
 
 class Character:
@@ -50,7 +50,7 @@ class Character:
         response = True
 
         while response:
-            print("Races: \n \u2022 Humans, +1  to  all  skill  rolls\n \u2022 Elves, +2 MIND"
+            print("\nRaces: \n \u2022 Humans, +1  to  all  skill  rolls\n \u2022 Elves, +2 MIND"
                   "\n \u2022 Dwarves, +2 STR \n \u2022 Halflings, +2 DEX")
             race_response = str(input("Are they a Human[A], Elf[B], Dwarf[C] or Halfling[D]?"))
             response = False
@@ -74,7 +74,7 @@ class Character:
 
         response = True
         while response:
-            print("Classes: \n \u2022"
+            print("\nClasses: \n \u2022"
                   " Fighters, "
                   "may wear any kind of armor and use shields, +3 bonus to Physical, +1 to all attack and damage rolls"
                   "\n \u2022 "
@@ -108,15 +108,19 @@ class Character:
             else:
                 response = True
 
-        print("Attributes  represent  the  overall  physical  and  mental  qualities  of  an  individual."
+        print("\nAttributes  represent  the  overall  physical  and  mental  qualities  of  an  individual."
               " They  define  the  raw  potential  an  individual  has  regardless  of  actual  skill.")
         print("To define these Attributes, the computer will roll 4D6, dropping the lowest roll, and you"
               " will choose which score to assign to 3 Attributes:\n \u2022 Strength(STR)"
               "\n \u2022 Dexterity(DEX)\n \u2022 Mind(MIND)")
-        rolls = [0, 0, 0, 0]
-        outs = [random.randint(1, 6) for _ in rolls]
-        outs.remove(min(outs))
-        print("Your rolls are {}.".format(outs))
+
+        outs = []
+        for i in range(0, 3):
+            roll = dice.roller(4, 6, 0)['rolls']
+            roll.remove(min(roll))
+            roll = sum(roll)
+            outs.append(roll)
+
         self.STR = int(input("Assign STR {}, {} or {}".format(outs[0], outs[1], outs[2])))
         outs.remove(self.STR)
         self.DEX = int(input("Assign DEX {} or {}".format(outs[0], outs[1])))

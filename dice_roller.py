@@ -11,7 +11,7 @@ class Dice:
         :param sides: how many sides the dice has (d20, d6 etc)
         :param count: number of d6's to roll
         :param bonus: the added bonus to the total roll
-        :return: array containing the values rolled, the total score, as well as all the inputs
+        :return: dict containing the values rolled, the total score, as well as all the inputs
         """
         rolls = []
 
@@ -19,12 +19,23 @@ class Dice:
             rolls.append(random.randint(1, sides))
         output = sum(rolls) + bonus
 
-        Dice.clean_rolls(rolls, output, count, sides, bonus)
+        # Dice.clean_rolls(rolls, output, count, sides, bonus)
 
-        return rolls, output, count, sides, bonus
+        send = {'rolls': rolls, 'output': output, 'count': count, 'sides': sides, 'bonus': bonus}
+        # print(send)
+        return send
 
     @staticmethod
     def clean_rolls(rolls, output, count, sides, bonus):
+        """
+        Prints the dice rolls in a clean way
+        :param rolls: list of dice results
+        :param output: total of all dice + bonus
+        :param count: number of dice rolled
+        :param sides: sides on each dice
+        :param bonus: added bonus on the roll
+        :return: nothing, prints to console
+        """
         print("Rolling {}d{} + {}...".format(count, sides, bonus))
         print("The dice have come up as ", end='')
         print('(%s)' % ', '.join(map(str, rolls)))
@@ -33,4 +44,4 @@ class Dice:
 
 if __name__ == "__main__":
     dice = Dice
-    dice.roller(4, 20, 10)
+    dice.roller(4, 6, 0)
