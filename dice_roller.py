@@ -20,10 +20,7 @@ class Dice:
         output = sum(rolls) + bonus
 
         # Dice.clean_rolls(rolls, output, count, sides, bonus)
-
-        send = {'rolls': rolls, 'output': output, 'count': count, 'sides': sides, 'bonus': bonus}
-        # print(send)
-        return send
+        return {'rolls': rolls, 'output': output, 'count': count, 'sides': sides, 'bonus': bonus}
 
     @staticmethod
     def clean_rolls(rolls, output, count, sides, bonus):
