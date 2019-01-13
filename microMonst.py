@@ -5,6 +5,7 @@
 import random
 import math
 import re
+import json
 
 
 class Monster:
@@ -16,8 +17,12 @@ class Monster:
         self.hd = int
         self.hp = int
         self.ac = int
+        self.atk_dice_sides = int
+        self.atk_dice_count = int
 
-        global np
+    @staticmethod
+    def new_word():
+        # Generates a random name with some clever regex golf
         np = {
              'W': 'CT CT CX CDF CVFT CDFU CTU IT ICT A',
              'A': 'KVKVtion',
@@ -36,13 +41,6 @@ class Monster:
              'D': 'aw ei ow ou ie ea ai oy',
              'X': 'e i o aw ow oy'
          }
-        # TODO: expand the list of attack types
-        global atktypes
-        atktypes = 'Bite Claw Slam Gore Sting Tentacle Shock Broadsword Battleaxe Club Glaive Spear Falchion Dagger'
-
-    @staticmethod
-    def new_word():
-        # Generates a random name with some clever regex golf
         word = 'W'
         p = re.compile('[A-Z]')
         while len(word) < 40:
@@ -55,17 +53,25 @@ class Monster:
         return word.capitalize()
 
     def micro_monster(self):
-        # Generates stats and formats output
+        # Generates stats and formats output, assuming hit dice is a d8
+        # TODO: expand the list of attack types
+        atktypes = 'Bite Claw Slam Gore Sting Tentacle Shock Broadsword Battleaxe Club Glaive Spear Falchion Dagger'
+
         def f(n): return random.randint(0, n)
+        self.hd = int(input("Number of hit-dice?"))
 
-        construct = "Name: {}\n".format(self.new_word())
-        construct += "HD: {} ({}hp), ".format(self.hd, int(math.floor(self.hd * 4.5)) + f(self.hd * 4))
-        construct += "AC: {}, ".format(f(5) + self.hd + 10)
-        construct += "Attack: {} + {} ".format(random.choice(atktypes.split(' ')), self.hd + f(4))
-        construct += "({}d{})\n".format(f(2) + 1, 2 * (f(6) + 1))
-        print(construct)
-        return construct
+        self.name = self.new_word()
+        self.hp = int(math.floor(self.hd) * 4.5) + f(self.hd * 4)
+        self.ac = f(5) + self.hd + 10
+        self.atktype, self.atk_bonus = random.choice(atktypes.split(' ')), self.hd + f(4)
+        self.atk_dice_count, self.atk_dice_sides = f(2) + 1, 2 * (f(6) + 1)
+        print(json.dumps(self.__dict__))
 
+
+if __name__ == "__main__":
+    monst = Monster()
+
+    monst.micro_monster()
 
 # hd = int(input("Enter number of hit dice(whole number): "))
 # micro_monster(hd)
