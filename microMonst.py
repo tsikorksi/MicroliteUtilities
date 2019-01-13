@@ -1,6 +1,6 @@
 # Microlite D20 monster generator
 # Please note that I did not write the original version, and that I am only converting JS that I found on 1d4chan.org
-# I barely understand the retarded JS code, so I decided to convert it into something usable and readable that works
+# I barely understand the JS code, so I decided to convert it into something usable and readable that works
 
 import random
 import math
@@ -22,7 +22,10 @@ class Monster:
 
     @staticmethod
     def new_word():
-        # Generates a random name with some clever regex golf
+        """
+        Generates a random name with some clever regex golf, by replacing capital letters with selected letter combos
+        :return: The new name
+        """
         np = {
              'W': 'CT CT CX CDF CVFT CDFU CTU IT ICT A',
              'A': 'KVKVtion',
@@ -53,7 +56,10 @@ class Monster:
         return word.capitalize()
 
     def micro_monster(self):
-        # Generates stats and formats output, assuming hit dice is a d8
+        """
+        Generates stats and formats output, assuming hit dice is a d8
+        :return:
+        """
         # TODO: expand the list of attack types
         atktypes = 'Bite Claw Slam Gore Sting Tentacle Shock Broadsword Battleaxe Club Glaive Spear Falchion Dagger'
 
