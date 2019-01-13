@@ -1,6 +1,5 @@
 import json
-import random
-from dice_roller import Dice as dice
+from dice_roller import Dice
 
 
 class Character:
@@ -116,7 +115,7 @@ class Character:
 
         outs = []
         for i in range(0, 3):
-            roll = dice.roller(4, 6, 0)['rolls']
+            roll = Dice.roller(4, 6, 0)['rolls']
             roll.remove(min(roll))
             roll = sum(roll)
             outs.append(roll)
