@@ -1,3 +1,6 @@
+# this may or may not be deleted
+
+
 class Equipment:
     def __init__(self, name, value, type):
         self.name = name

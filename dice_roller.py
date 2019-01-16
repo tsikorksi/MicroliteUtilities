@@ -1,5 +1,6 @@
 # Basic class allowing methods for dice rolling, without having to repeat the random calls
 import random
+import re
 
 
 class Dice:
@@ -37,6 +38,32 @@ class Dice:
         print("The dice have come up as ", end='')
         print('(%s)' % ', '.join(map(str, rolls)))
         print("Your total is ", output)
+
+    @staticmethod
+    def is_dice(dice_value):
+        structure = re.compile("([1-9]\\d*)?d([1-9]\\d*)([/x][1-9]\\d*)?([+-]\\d+)?")
+        if re.match(structure, dice_value) is not None:
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def calculate(equation_input):
+        stack = []
+        result = 0
+        equation = equation_input.split(" ")
+        for i in equation:
+            if Dice.is_dice(i):
+                stack.insert(0, i)
+            else:
+
+                if len(i) == 1:
+                    n1 = float(stack.pop(1))
+                    n2 = float(stack.pop(0))
+                    result = ''
+                    # TODO:calculate result of dice roll
+                    stack.insert(0, str(result))
+        return result
 
 
 if __name__ == "__main__":
