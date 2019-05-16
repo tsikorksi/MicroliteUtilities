@@ -113,12 +113,8 @@ class Character:
               " will choose which score to assign to 3 Attributes:\n \u2022 Strength(STR)"
               "\n \u2022 Dexterity(DEX)\n \u2022 Mind(MIND)")
 
-        outs = []
-        for i in range(0, 3):
-            roll = Dice.roller(4, 6, 0)['rolls']
-            roll.remove(min(roll))
-            roll = sum(roll)
-            outs.append(roll)
+        outs = Dice.dice_roll("4d6")['rolls']
+        outs.remove(min(outs))
 
         self.STR = int(input("Assign STR {}, {} or {}".format(outs[0], outs[1], outs[2])))
         outs.remove(self.STR)
