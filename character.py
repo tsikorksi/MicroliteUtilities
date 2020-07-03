@@ -116,11 +116,11 @@ class Character:
         outs = Dice.dice_roll("4d6")['rolls']
         outs.remove(min(outs))
 
-        self.STR = int(input("Assign STR {}, {} or {}".format(outs[0], outs[1], outs[2])))
+        self.STR = int(input(f"Assign STR {outs[0]}, {outs[1]} or {outs[2]}"))
         outs.remove(self.STR)
-        self.DEX = int(input("Assign DEX {} or {}".format(outs[0], outs[1])))
+        self.DEX = int(input(f"Assign DEX {outs[0]} or {outs[1]}"))
         outs.remove(self.DEX)
-        print("Assigning {} to MIND".format(outs[0]))
+        print(f"Assigning {outs[0]} to MIND")
         self.MIND = outs[0]
 
         self.HP += self.STR

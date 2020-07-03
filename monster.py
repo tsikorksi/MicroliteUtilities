@@ -5,7 +5,6 @@
 import random
 import math
 import re
-import json
 
 
 class Monster:
@@ -19,6 +18,29 @@ class Monster:
         self.ac = int
         self.atk_dice_sides = int
         self.atk_dice_count = int
+
+    def create(self, name, atktype, atk_bonus, hd, hp, ac, atk_dice_sides, atk_dice_count):
+        """
+        Create monster from input, so existing monsters can be made into classes
+
+        :param name: name of monster
+        :param atktype: attack type
+        :param atk_bonus: attack bonus
+        :param hd: hit dice
+        :param hp: hit points
+        :param ac: Armor Class
+        :param atk_dice_sides: atk dice number of sides
+        :param atk_dice_count: number of attack dice
+        :return:
+        """
+        self.name = name
+        self.atktype = atktype
+        self.atk_bonus = atk_bonus
+        self.hd = hd
+        self.hp = hp
+        self.ac = ac
+        self.atk_dice_sides = atk_dice_sides
+        self.atk_dice_count = atk_dice_count
 
     @staticmethod
     def new_word():
@@ -58,9 +80,9 @@ class Monster:
     def micro_monster(self):
         """
         Generates stats and formats output, assuming hit dice is a d8
-        :return:
+
+        :return: sets class to random values
         """
-        # TODO: expand the list of attack types
         atktypes = 'Bite Claw Slam Gore Sting Tentacle Shock Broadsword Battleaxe Club Glaive Spear Falchion Dagger'
 
         def f(n): return random.randint(0, n)
@@ -71,7 +93,6 @@ class Monster:
         self.ac = f(5) + self.hd + 10
         self.atktype, self.atk_bonus = random.choice(atktypes.split(' ')), self.hd + f(4)
         self.atk_dice_count, self.atk_dice_sides = f(2) + 1, 2 * (f(6) + 1)
-        print(json.dumps(self.__dict__))
 
 
 if __name__ == "__main__":
