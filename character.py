@@ -1,5 +1,5 @@
 import json
-from dice_roller import Dice
+from Dice import Dice
 
 
 class Character:
@@ -113,7 +113,7 @@ class Character:
               " will choose which score to assign to 3 Attributes:\n \u2022 Strength(STR)"
               "\n \u2022 Dexterity(DEX)\n \u2022 Mind(MIND)")
 
-        outs = Dice.dice_roll("4d6")['rolls']
+        outs = Dice(4, 6, 0).rolls
         outs.remove(min(outs))
 
         self.STR = int(input(f"Assign STR {outs[0]}, {outs[1]} or {outs[2]}"))
@@ -175,6 +175,7 @@ class Character:
     def json_output(self):
         """
         Outputs the class dict as a json
+
         :return: the json tree
         """
         output = json.dumps(self.__dict__)

@@ -77,7 +77,7 @@ class Monster:
             word = word.replace(matched, random.choice(np[matched].split(' ')))
         return word.capitalize()
 
-    def micro_monster(self):
+    def micro_monster(self, hd):
         """
         Generates stats and formats output, assuming hit dice is a d8
 
@@ -85,8 +85,9 @@ class Monster:
         """
         atktypes = 'Bite Claw Slam Gore Sting Tentacle Shock Broadsword Battleaxe Club Glaive Spear Falchion Dagger'
 
+        # No dice class for simplicity
         def f(n): return random.randint(0, n)
-        self.hd = int(input("Number of hit-dice?"))
+        self.hd = hd
 
         self.name = self.new_word()
         self.hp = int(math.floor(self.hd) * 4.5) + f(self.hd * 4)
@@ -98,7 +99,7 @@ class Monster:
 if __name__ == "__main__":
     monst = Monster()
 
-    monst.micro_monster()
+    monst.micro_monster(3)
 
 # hd = int(input("Enter number of hit dice(whole number): "))
 # micro_monster(hd)
