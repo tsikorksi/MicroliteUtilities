@@ -9,17 +9,7 @@ import re
 
 class Monster:
 
-    def __init__(self):
-        self.name = str
-        self.atktype = str
-        self.atk_bonus = int
-        self.hd = int
-        self.hp = int
-        self.ac = int
-        self.atk_dice_sides = int
-        self.atk_dice_count = int
-
-    def create(self, name, atktype, atk_bonus, hd, hp, ac, atk_dice_sides, atk_dice_count):
+    def __init__(self, hd, name=None, atktype=None, atk_bonus=None, hp=None, ac=None, sides=None, count=None):
         """
         Create monster from input, so existing monsters can be made into classes
 
@@ -29,23 +19,27 @@ class Monster:
         :param hd: hit dice
         :param hp: hit points
         :param ac: Armor Class
-        :param atk_dice_sides: atk dice number of sides
-        :param atk_dice_count: number of attack dice
-        :return:
+        :param sides: atk dice number of sides
+        :param count: number of attack dice
+        :return: generated monster class
         """
-        self.name = name
-        self.atktype = atktype
-        self.atk_bonus = atk_bonus
         self.hd = hd
-        self.hp = hp
-        self.ac = ac
-        self.atk_dice_sides = atk_dice_sides
-        self.atk_dice_count = atk_dice_count
+        if name is None:
+            self.generate_monster()
+        else:
+            self.name = name
+            self.atktype = atktype
+            self.atk_bonus = atk_bonus
+            self.hp = hp
+            self.ac = ac
+            self.sides = sides
+            self.count = count
 
     @staticmethod
     def new_word():
         """
         Generates a random name with some clever regex golf, by replacing capital letters with selected letter combos
+
         :return: The new name
         """
         np = {
@@ -77,7 +71,7 @@ class Monster:
             word = word.replace(matched, random.choice(np[matched].split(' ')))
         return word.capitalize()
 
-    def micro_monster(self, hd):
+    def generate_monster(self):
         """
         Generates stats and formats output, assuming hit dice is a d8
 
@@ -87,19 +81,9 @@ class Monster:
 
         # No dice class for simplicity
         def f(n): return random.randint(0, n)
-        self.hd = hd
 
         self.name = self.new_word()
         self.hp = int(math.floor(self.hd) * 4.5) + f(self.hd * 4)
         self.ac = f(5) + self.hd + 10
         self.atktype, self.atk_bonus = random.choice(atktypes.split(' ')), self.hd + f(4)
-        self.atk_dice_count, self.atk_dice_sides = f(2) + 1, 2 * (f(6) + 1)
-
-
-if __name__ == "__main__":
-    monst = Monster()
-
-    monst.micro_monster(3)
-
-# hd = int(input("Enter number of hit dice(whole number): "))
-# micro_monster(hd)
+        self.count, self.sides = f(2) + 1, 2 * (f(6) + 1)
