@@ -25,7 +25,9 @@ class Character:
         self.subterfuge = 1
         self.knowledge = 1
         self.communication = 1
+        self.attack_bonus = 0
         self.damage_bonus = 0
+        self.wallet = 0
         self.name = name
         if self.name is None:
             self.name_prompt()
@@ -127,13 +129,18 @@ class Character:
         :return: adjusts stats based on class
         """
         if self.char_class == 0:
+            self.wallet += 150
             self.physical += 3
+            self.attack_bonus += 1
             self.damage_bonus += 1
         elif self.char_class == 1:
+            self.wallet += 125
             self.subterfuge += 3
         elif self.char_class == 2:
+            self.wallet += 75
             self.knowledge += 3
         elif self.char_class == 3:
+            self.wallet += 125
             self.communication += 3
 
     def assign_attributes(self, verbose):
@@ -149,7 +156,7 @@ class Character:
                   " will choose which score to assign to 3 Attributes:\n \u2022 Strength(STR)"
                   "\n \u2022 Dexterity(DEX)\n \u2022 Mind(MIND)")
 
-        outs = Dice(4, 6, 0).rolls
+        outs = Dice(4, 6, 0).get_rolls()
         outs.remove(min(outs))
 
         self.STR = int(input(f"Assign STR {outs[0]}, {outs[1]} or {outs[2]}"))
@@ -173,6 +180,7 @@ class Character:
         self.knowledge += 1
         self.communication += 1
         self.physical += 1
+        self.attack_bonus += 1
 
         if self.level % 3 == 0:
             if verbose:
@@ -188,6 +196,7 @@ class Character:
         if self.char_class == 0 and self.level % 5 == 0:
             if verbose:
                 print("Congratulations Fighter, this level you get an extra bonus to damage and attack rolls!")
+            self.attack_bonus += 1
             self.damage_bonus += 1
 
     @staticmethod
@@ -232,7 +241,7 @@ class Character:
 
         :return: the ranged sub attribute
         """
-        return self.STR + self.level + self.damage_bonus
+        return self.STR + self.level
 
     def ranged(self):
         """
@@ -240,7 +249,7 @@ class Character:
 
         :return: the ranged sub attribute
         """
-        return self.DEX + self.level + self.damage_bonus
+        return self.DEX + self.level
 
     def magic(self):
         """
@@ -248,7 +257,7 @@ class Character:
 
         :return: the ranged sub attribute
         """
-        return self.MIND + self.level + self.damage_bonus
+        return self.MIND + self.level
 
     @staticmethod
     def calculate_attribute_bonus(attribute):
@@ -266,7 +275,7 @@ class Character:
 
         :return: the value of the saving throw
         """
-        return Dice(1, 20).result + self.calculate_attribute_bonus(attribute) + (0.5 * self.level)
+        return Dice(1, 20).calculate() + self.calculate_attribute_bonus(attribute) + (0.5 * self.level)
 
     def skill_roll(self, skill, attribute):
         """
@@ -276,7 +285,7 @@ class Character:
         :param attribute: the attribute
         :return: the result of the skill roll
         """
-        return Dice(1, 20).result + skill + self.calculate_attribute_bonus(attribute)
+        return Dice(1, 20).calculate() + skill + self.calculate_attribute_bonus(attribute)
 
     def initiative(self):
         """
@@ -284,4 +293,4 @@ class Character:
 
         :return: initiative
         """
-        return Dice(1, 20).result + self.DEX
+        return Dice(1, 20).calculate() + self.DEX

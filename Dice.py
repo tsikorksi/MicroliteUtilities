@@ -17,7 +17,6 @@ class Dice:
 
         self.result = 0
         self.rolls = []
-        self.calculate()
 
     def calculate(self):
         """
@@ -28,6 +27,16 @@ class Dice:
         for i in range(0, self.count):
             self.rolls.append(random.randint(1, self.sides))
         self.result = sum(self.rolls) + self.bonus
+        return self.result
+
+    def get_rolls(self):
+        """
+        get the rolls of the dice
+
+        :return: list of results
+        """
+        self.calculate()
+        return self.rolls
 
     def print(self):
         """
