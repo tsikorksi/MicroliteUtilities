@@ -3,7 +3,7 @@ import random
 
 class Dice:
 
-    def __init__(self, count, sides, bonus):
+    def __init__(self, count, sides, bonus=0):
         """
         Generates an instance of dice, rolling them
 
@@ -15,7 +15,7 @@ class Dice:
         self.sides = sides
         self.bonus = bonus
 
-        self.result = int
+        self.result = 0
         self.rolls = []
         self.calculate()
 

@@ -1,10 +1,12 @@
 from Dice import Dice
+import math
 
 
 class Character:
     """
     Class defines each PC or NPC, including generation and level up
     """
+
     def __init__(self, name=None, char_class=None, race=None, verbose=False):
         """
         Creates basic char, including race, name and basic stats
@@ -18,12 +20,7 @@ class Character:
         self.MIND = 0
         self.STR = 0
         self.DEX = 0
-        self.HP = 6
-        self.AC = 10
         self.level = 1
-        self.melee = 1
-        self.ranged = 1
-        self.magic = 1
         self.physical = 1
         self.subterfuge = 1
         self.knowledge = 1
@@ -132,9 +129,6 @@ class Character:
         if self.char_class == 0:
             self.physical += 3
             self.damage_bonus += 1
-            self.melee += 1
-            self.ranged += 1
-            self.magic += 1
         elif self.char_class == 1:
             self.subterfuge += 3
         elif self.char_class == 2:
@@ -165,12 +159,6 @@ class Character:
         print(f"Assigning {outs[0]} to MIND")
         self.MIND = outs[0]
 
-        self.HP += self.STR
-        self.AC += self.DEX
-        self.melee += self.STR
-        self.ranged += self.DEX
-        self.magic += self.MIND
-
     def level_up(self, choice=0, verbose=False):
         """
         Levels character up, including recalculating stats dependant on the core stats
@@ -181,9 +169,6 @@ class Character:
         if verbose:
             print("Congratulations! You have leveled up! Your skills and attack rolls have been increased by 1.")
         self.level += 1
-        self.melee += 1
-        self.ranged += 1
-        self.magic += 1
         self.subterfuge += 1
         self.knowledge += 1
         self.communication += 1
@@ -195,22 +180,14 @@ class Character:
 
             if choice == 0:
                 self.STR += 1
-                self.HP += 1
-                self.melee += 1
             elif choice == 1:
                 self.DEX += 1
-                self.AC += 1
-                self.ranged += 1
             elif choice == 2:
                 self.MIND += 1
-                self.magic += 1
 
         if self.char_class == 0 and self.level % 5 == 0:
             if verbose:
                 print("Congratulations Fighter, this level you get an extra bonus to damage and attack rolls!")
-            self.melee += 1
-            self.ranged += 1
-            self.magic += 1
             self.damage_bonus += 1
 
     @staticmethod
@@ -232,3 +209,79 @@ class Character:
                 return 2
             else:
                 continue
+
+    def hp(self):
+        """
+        Calculate HP
+
+        :return: the hp value
+        """
+        return self.STR + 6
+
+    def ac(self):
+        """
+        Calculate AC from class, not including equipment
+
+        :return: The AC value
+        """
+        return self.DEX + 10
+
+    def melee(self):
+        """
+        Calculate ranged attack bonus
+
+        :return: the ranged sub attribute
+        """
+        return self.STR + self.level + self.damage_bonus
+
+    def ranged(self):
+        """
+        Calculate ranged attack bonus
+
+        :return: the ranged sub attribute
+        """
+        return self.DEX + self.level + self.damage_bonus
+
+    def magic(self):
+        """
+        Calculate ranged attack bonus
+
+        :return: the ranged sub attribute
+        """
+        return self.MIND + self.level + self.damage_bonus
+
+    @staticmethod
+    def calculate_attribute_bonus(attribute):
+        """
+        Calculates attribute bonus value
+
+        :param attribute: STR/DEX/MIND value
+        :return: The value of the bonus
+        """
+        return math.floor((attribute - 10) / 2)
+
+    def saving_throw(self, attribute):
+        """
+        Calculate a saving throw
+
+        :return: the value of the saving throw
+        """
+        return Dice(1, 20).result + self.calculate_attribute_bonus(attribute) + (0.5 * self.level)
+
+    def skill_roll(self, skill, attribute):
+        """
+        Calculate skill roll result
+
+        :param skill: the skill in question
+        :param attribute: the attribute
+        :return: the result of the skill roll
+        """
+        return Dice(1, 20).result + skill + self.calculate_attribute_bonus(attribute)
+
+    def initiative(self):
+        """
+        returns initiative value
+
+        :return: initiative
+        """
+        return Dice(1, 20).result + self.DEX
