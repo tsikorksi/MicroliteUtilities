@@ -171,7 +171,7 @@ class Character:
         self.ranged += self.DEX
         self.magic += self.MIND
 
-    def level_up(self, verbose=False):
+    def level_up(self, choice=0, verbose=False):
         """
         Levels character up, including recalculating stats dependant on the core stats
         Accounts for both 3rd level extra attribute point, and fighter 5th level bonus
@@ -191,25 +191,20 @@ class Character:
 
         if self.level % 3 == 0:
             if verbose:
-                print("As this is a level divisible by 3,"
-                      " you may choose whether to allocate an extra point to STR, DEX or MIND")
-            response = True
-            while response:
-                choice = input("Allocate to STR[A], DEX[B] or MIND[C]?").lower()
-                response = False
-                if choice == 'a':
-                    self.STR += 1
-                    self.HP += 1
-                    self.melee += 1
-                elif choice == "b":
-                    self.DEX += 1
-                    self.AC += 1
-                    self.ranged += 1
-                elif choice == "c":
-                    self.MIND += 1
-                    self.magic += 1
-                else:
-                    response = True
+                choice = self.make_choice()
+
+            if choice == 0:
+                self.STR += 1
+                self.HP += 1
+                self.melee += 1
+            elif choice == 1:
+                self.DEX += 1
+                self.AC += 1
+                self.ranged += 1
+            elif choice == 2:
+                self.MIND += 1
+                self.magic += 1
+
         if self.char_class == 0 and self.level % 5 == 0:
             if verbose:
                 print("Congratulations Fighter, this level you get an extra bonus to damage and attack rolls!")
@@ -217,3 +212,23 @@ class Character:
             self.ranged += 1
             self.magic += 1
             self.damage_bonus += 1
+
+    @staticmethod
+    def make_choice():
+        """
+        Gives prompt to make choice
+
+        :return: attribute code
+        """
+        print("As this is a level divisible by 3,"
+              " you may choose whether to allocate an extra point to STR, DEX or MIND")
+        while True:
+            choice = input("Allocate to STR[A], DEX[B] or MIND[C]?").lower()
+            if choice == 'a':
+                return 0
+            elif choice == "b":
+                return 1
+            elif choice == "c":
+                return 2
+            else:
+                continue
