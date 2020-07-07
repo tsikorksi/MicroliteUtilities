@@ -25,11 +25,11 @@ class Dice:
         :return: populates result and rolls
         """
         for i in range(0, self.count):
-            self.rolls.append(random.randint(1, self.sides))
+            self.rolls[i] = random.randint(1, self.sides)
         self.result = sum(self.rolls) + self.bonus
         return self.result
 
-    def get_rolls(self):
+    def calculate_rolls(self):
         """
         get the rolls of the dice
 

@@ -156,7 +156,7 @@ class Character:
                   " will choose which score to assign to 3 Attributes:\n \u2022 Strength(STR)"
                   "\n \u2022 Dexterity(DEX)\n \u2022 Mind(MIND)")
 
-        outs = Dice(4, 6, 0).get_rolls()
+        outs = Dice(4, 6, 0).calculate_rolls()
         outs.remove(min(outs))
 
         self.STR = int(input(f"Assign STR {outs[0]}, {outs[1]} or {outs[2]}"))

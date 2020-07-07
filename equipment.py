@@ -63,10 +63,7 @@ class Weapon(Equipment):
 
         :return: the value of the damage
         """
-        temp = self.dice
-        output = self.dice.calculate()
-        self.dice = temp
-        return output
+        return self.dice.calculate()
 
 
 class Armor(Equipment):
